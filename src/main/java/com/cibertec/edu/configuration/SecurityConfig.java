@@ -16,19 +16,21 @@ import org.springframework.security.core.userdetails.User;
 public class SecurityConfig {
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/**/**").permitAll()
-		.antMatchers("/home").hasAnyRole("USER").anyRequest().authenticated()
-		.and()
-		.formLogin()
-		//.loginPage("/login")
-		.defaultSuccessUrl("/registro")
-		.permitAll()
-		.and()
-		.logout().permitAll();
-		
-		return http.build();
-	}
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers("/login", "/css/**", "/js/**").permitAll()
+            .antMatchers("/guardar").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .defaultSuccessUrl("/registro")
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll();
+        	http.csrf().disable();
+        return http.build();
+    }
 	
 	@Bean
 	public InMemoryUserDetailsManager userDetailsService() {

@@ -1,12 +1,16 @@
 package com.cibertec.edu.controllers;
 import java.time.LocalDate;
-
+import java.time.ZoneId;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cibertec.edu.models.Producto;
 import com.cibertec.edu.services.ProductoService;
@@ -34,10 +38,11 @@ public class ProductoController {
 
     @PostMapping("/guardar")
     public String guardarProducto(@ModelAttribute("producto") Producto producto) {
-        producto.setFechaRegistro(LocalDate.now());
+        producto.setFechaRegistro(new Date()); // Asignar la fecha actual al producto
         productoService.guardarProducto(producto);
         return "redirect:/registro";
     }
+
 
     /*@GetMapping("/generar-constancia/{id}")
     public ResponseEntity<byte[]> generarConstancia(@PathVariable("id") Long id) {
