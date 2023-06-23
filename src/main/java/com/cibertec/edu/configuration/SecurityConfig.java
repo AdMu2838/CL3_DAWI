@@ -23,6 +23,7 @@ public class SecurityConfig {
             .anyRequest().authenticated()
             .and()
             .formLogin()
+            .loginPage("/login")
             .defaultSuccessUrl("/registro")
             .permitAll()
             .and()
