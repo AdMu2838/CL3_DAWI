@@ -1,6 +1,7 @@
 package com.cibertec.edu.services;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -45,8 +46,12 @@ public class ProductoService {
         try {
             ProductoReport productoReport = new ProductoReport(producto.getNombre(), producto.getDescripcion(), producto.getFechaRegistro());
 
-            String reportFilePath = "jasper/constancia.jrxml";
+            String reportFilePath = "jasper/constancia.jasper";
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(reportFilePath);
+
+            if (inputStream == null) {
+                throw new FileNotFoundException("Archivo de informe no encontrado: " + reportFilePath);
+            }
 
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList(productoReport));
 
@@ -60,6 +65,7 @@ public class ProductoService {
             throw new JRException("Error al generar el informe de producto", e);
         }
     }
+
     
     public Producto obtenerUltimoProducto() {
      

@@ -17,8 +17,9 @@ public class SecurityConfig {
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/login", "/css/**", "/js/**").permitAll()
+        http.csrf().disable()
+        	.authorizeRequests()
+            .antMatchers("/login", "/css/**", "/js/**","/jasper/**").permitAll()
             .antMatchers("/guardar").permitAll()
             .anyRequest().authenticated()
             .and()
@@ -29,7 +30,6 @@ public class SecurityConfig {
             .and()
             .logout()
             .permitAll();
-        	http.csrf().disable();
         return http.build();
     }
 	
